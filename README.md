@@ -1,1 +1,0 @@
-# vault-approle-dynamic-secrets-demo
