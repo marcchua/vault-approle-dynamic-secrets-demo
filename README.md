@@ -8,4 +8,7 @@ We also all create a loop in a try block that throws an exception if the followi
 
 2. Database Secrets token expired and needs to be recreated/renewed
 
+# Testing
+
+Please see [testing.md](testing.md) for Vault configuration and working example steps.
 
