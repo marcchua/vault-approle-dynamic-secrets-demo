@@ -6,28 +6,30 @@ import json
 import socket
 import time
 
-#set the VAULT Authentication Context
-
-vault_client    = hvac.Client()
-vault_client    = hvac.Client(url=os.environ['VAULT_ADDR'])
-dbhostname      = "mydb1-database.ch8jg7uay5or.us-east-2.rds.amazonaws.com"
+dbhostname      = os.environ['DB_HOST']
 mydb            = "postgres"
-vault_role_id   = "1639f905-9ab5-5de0-9b2a-85ae206bf4b1"
+vault_role_id   = os.environ['ROLE_ID']
+secrets_path    = os.environ['SECRETS_PATH']
 print("***********************")
 print("VAULT_ADDR   = " + os.environ['VAULT_ADDR'])
 print("HOSTNAME     = " + socket.gethostname())
 print("RDS HOSTNAME = " + dbhostname)
 print("DATABASE     = " + mydb)
+print("SECRETS_PATH     = " + secrets_path)
 
+#set the VAULT Authentication Context
+print("Instantiating a new Vault client")
+vault_client    = hvac.Client(url=os.environ['VAULT_ADDR'])
 
 while True:
     print("***********************")
+    print("Starting loop")
     try:
         vault_client.auth_approle(vault_role_id, os.environ['SECRET_ID'])
 
         if vault_client.is_authenticated():
 
-            json_data=vault_client.read('database/creds/pythonapp-role')
+            json_data=vault_client.read(secrets_path)
             dbuser      = json_data['data']['username']
             dbpassword  = json_data['data']['password']
             lease_id    = json_data['lease_id']
