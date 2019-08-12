@@ -1,0 +1,28 @@
+# Example app deployment in K8S, please adjust image and env sections
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: vault-approle
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: vault-approle
+    spec:
+      containers:
+        - name: vault-approle
+          image: kawsark/pyapprole:0.0.1
+          imagePullPolicy: "IfNotPresent"
+          env:
+            - name: ROLE_ID
+              value: "role-id"
+            - name: SECRET_ID
+              value: "secret-id"
+            - name: VAULT_ADDR
+              value: "http://127.0.0.1:8200"
+            - name: DB_HOST
+              value: "postgres"
+            - name: SECRETS_PATH
+              value: "database/creds/pythonapp-role"
+
