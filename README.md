@@ -9,7 +9,7 @@ We also all create a loop in a try block that throws an exception if the followi
 2. Database Secrets token expired and needs to be recreated/renewed
 
 # Workflow diagram
-![Approle Flow diagram](Approle Flow.png)
+![Approle Workflow diagram](Approle-Flow.png "AppRole Workflow")
 
 # Testing
 
