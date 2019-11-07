@@ -18,4 +18,7 @@ steps:
     export token=$(vault write auth/azure/login role="dev-role"      jwt="$(curl -s 'http://169.254.169.254/metadata/identity/oauth2/token?api-version=2018-02-01&resource=https%3A%2F%2Fmanagement.azure.com' -H Metadata:true | jq -r '.access_token')"      subscription_id=$(curl -s -H Metadata:true "http://169.254.169.254/metadata/instance?api-version=2017-08-01" | jq -r '.compute | .subscriptionId')       resource_group_name=$(curl -s -H Metadata:true "http://169.254.169.254/metadata/instance?api-version=2017-08-01" | jq -r '.compute | .resourceGroupName')      vm_name=$(curl -s -H Metadata:true "http://169.254.169.254/metadata/instance?api-version=2017-08-01" | jq -r '.compute | .name') --format=json | jq .auth.client_token -r )
     vault login $token
     vault status
+    vault write pki/issue/example-role \
+    common_name=test.hashicorp.com > cert.crt
+    cat cert.crt     
   displayName: 'Run a multi-line script'
